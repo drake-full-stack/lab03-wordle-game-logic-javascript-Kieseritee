@@ -73,6 +73,10 @@ document.addEventListener("keydown", (event) => {
     if (/^[A-Z]$/.test(key)) {
         addLetter(key);
     }
+    if (key === "BACKSPACE") {
+    deleteLetter();
+    }
+
 });
 
 
@@ -92,9 +96,17 @@ function addLetter(letter) {
 
 
 // TODO: Implement deleteLetter function  
-// function deleteLetter() {
-//     // Your code here!
-// }
+function deleteLetter() {
+    if (gameOver) return;
+    if (currentTile <= 0) return; // nothing to delete
+
+    currentTile--;
+    const tile = rows[currentRow].children[currentTile];
+    tile.textContent = "";
+    tile.classList.remove('filled');
+
+    logDebug(`Deleted letter at row ${currentRow}, tile ${currentTile}`);
+}
 
 // TODO: Implement submitGuess function
 // function submitGuess() {
