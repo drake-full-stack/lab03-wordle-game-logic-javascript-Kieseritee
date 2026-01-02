@@ -68,14 +68,28 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== YOUR CHALLENGE: IMPLEMENT THESE FUNCTIONS =====
 
 // TODO: Add keyboard event listener
-// document.addEventListener("keydown", (event) => {
-//     // Your code here!
-// });
+document.addEventListener("keydown", (event) => {
+    const key = event.key.toUpperCase();
+    if (/^[A-Z]$/.test(key)) {
+        addLetter(key);
+    }
+});
+
 
 // TODO: Implement addLetter function
-// function addLetter(letter) {
-//     // Your code here!
-// }
+function addLetter(letter) {
+    if (gameOver) return;
+    if (currentTile >= 5) return; // row full
+
+    const tile = rows[currentRow].children[currentTile];
+    tile.textContent = letter.toUpperCase();
+    tile.classList.add('filled');
+
+    currentTile++;
+    logDebug(`Added letter: ${letter} at row ${currentRow}, tile ${currentTile - 1}`);
+}
+
+
 
 // TODO: Implement deleteLetter function  
 // function deleteLetter() {
