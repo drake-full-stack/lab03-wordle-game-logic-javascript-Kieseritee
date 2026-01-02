@@ -76,7 +76,9 @@ document.addEventListener("keydown", (event) => {
     if (key === "BACKSPACE") {
     deleteLetter();
     }
-
+    if (key === "ENTER") {
+    submitGuess();
+    }
 });
 
 
@@ -109,9 +111,27 @@ function deleteLetter() {
 }
 
 // TODO: Implement submitGuess function
-// function submitGuess() {
-//     // Your code here!
-// }
+function submitGuess() {
+    if (gameOver) return;
+    if (currentTile < 5) {
+        alert("Not enough letters!");
+        return;
+    }
+
+    const guess = getCurrentWord();
+    logDebug(`Submitting guess: ${guess}`);
+
+    // Call checkGuess() later in Question 4
+    // checkGuess(guess, rows[currentRow].children);
+
+    currentRow++;
+    currentTile = 0;
+
+    if (currentRow >= 6) {
+        gameOver = true;
+        logDebug("Game over! Max guesses reached.", 'warning');
+    }
+}
 
 // TODO: Implement checkGuess function (the hardest part!)
 // function checkGuess(guess, tiles) {
