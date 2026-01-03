@@ -121,21 +121,55 @@ function submitGuess() {
     const guess = getCurrentWord();
     logDebug(`Submitting guess: ${guess}`);
 
-    // Call checkGuess() later in Question 4
-    // checkGuess(guess, rows[currentRow].children);
+    checkGuess(guess, rows[currentRow].children); // <-- color tiles
 
-    currentRow++;
-    currentTile = 0;
-
-    if (currentRow >= 6) {
+    if (guess === TARGET_WORD) {
         gameOver = true;
-        logDebug("Game over! Max guesses reached.", 'warning');
+        logDebug("🎉 You guessed the word!", 'success');
+    } else {
+        currentRow++;
+        currentTile = 0;
+        if (currentRow >= 6) {
+            gameOver = true;
+            logDebug("Game over! Max guesses reached.", 'warning');
+        }
     }
 }
 
 // TODO: Implement checkGuess function (the hardest part!)
-// function checkGuess(guess, tiles) {
-//     // Your code here!
-//     // Remember: handle duplicate letters correctly
-//     // Return the result array
-// }
+function checkGuess(guess, tiles) {
+    const target = TARGET_WORD.split('');
+    const guessArr = guess.split('');
+    const result = Array(5).fill('absent');
+
+    // Track letters used in target
+    const targetUsed = Array(5).fill(false);
+
+    // Pass 1: Correct letters
+    for (let i = 0; i < 5; i++) {
+        if (guessArr[i] === target[i]) {
+            result[i] = 'correct';
+            targetUsed[i] = true;
+        }
+    }
+
+    // Pass 2: Present letters
+    for (let i = 0; i < 5; i++) {
+        if (result[i] === 'correct') continue;
+        for (let j = 0; j < 5; j++) {
+            if (!targetUsed[j] && guessArr[i] === target[j]) {
+                result[i] = 'present';
+                targetUsed[j] = true;
+                break;
+            }
+        }
+    }
+
+    // Apply classes to tiles
+    for (let i = 0; i < 5; i++) {
+        tiles[i].classList.add(result[i]);
+    }
+
+    logDebug(`Guess result: ${result.join(', ')}`);
+    return result;
+}
