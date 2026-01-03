@@ -121,7 +121,7 @@ function submitGuess() {
     const guess = getCurrentWord();
     logDebug(`Submitting guess: ${guess}`);
 
-    checkGuess(guess, rows[currentRow].children); // <-- color tiles
+    checkGuess(guess, rows[currentRow].children); 
 
     if (guess === TARGET_WORD) {
         gameOver = true;
@@ -142,10 +142,10 @@ function checkGuess(guess, tiles) {
     const guessArr = guess.split('');
     const result = Array(5).fill('absent');
 
-    // Track letters used in target
+    
     const targetUsed = Array(5).fill(false);
 
-    // Pass 1: Correct letters
+    
     for (let i = 0; i < 5; i++) {
         if (guessArr[i] === target[i]) {
             result[i] = 'correct';
@@ -153,7 +153,7 @@ function checkGuess(guess, tiles) {
         }
     }
 
-    // Pass 2: Present letters
+    
     for (let i = 0; i < 5; i++) {
         if (result[i] === 'correct') continue;
         for (let j = 0; j < 5; j++) {
